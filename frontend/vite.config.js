@@ -1,27 +1,24 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import vue from '@vitejs/plugin-vue';
 import federation from '@originjs/vite-plugin-federation';
 
 export default defineConfig({
   plugins: [
-    react(),
+    vue(),
     federation({
       name: 'richieste_module',
       filename: 'remoteEntry.js',
       exposes: {
-        './Dashboard': './src/pages/Dashboard.jsx',
-        './Approvazioni': './src/pages/Approvazioni.jsx',
+        './Dashboard': './src/pages/Dashboard.vue',
+        './Approvazioni': './src/pages/Approvazioni.vue',
       },
-      shared: ['react', 'react-dom', 'react-router-dom', 'axios'],
+      shared: ['vue', 'axios'],
     }),
   ],
   server: {
     port: 5175,
     proxy: {
-      '/api': {
-        target: 'http://localhost:8003',
-        changeOrigin: true,
-      },
+      '/api': { target: 'http://localhost:8003', changeOrigin: true },
     },
   },
   preview: {
